@@ -194,7 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3bc35443e89d0a42859f366944ec9db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  faction: 1
+  attackSpeed: 0
   moveSpeed: 5
+  damage: 10
 --- !u!114 &8052893174670217287
 MonoBehaviour:
   m_ObjectHideFlags: 0
