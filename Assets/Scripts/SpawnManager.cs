@@ -1,27 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject objectToSpawn; // Drag your prefab to this field in the Inspector
+    [SerializeField]
+    private int money = 150;
     public float spawnCooldown = 2f; // Time limit between spawns
     public float xPos;
-    private Button button;
     private bool canSpawn = true;
+    public TextMeshProUGUI moneyText;
 
+    // Start is called before the first frame update
     void Start()
     {
-        button = GetComponent<Button>();
-        button.onClick.AddListener(SpawnObject);
+        StartCoroutine(AddMoney());
+        moneyText.text = money.ToString();
     }
 
-    void SpawnObject()
+    // Update is called once per frame
+    void Update()
     {
-        if (canSpawn)
+        
+    }
+
+    public void SpawnObject(GameObject objectToSpawn, int cost)
+    {
+        if (canSpawn && money - cost >= 0)
         {
             StartCoroutine(SpawnCooldown());
+            // Subtract amount of money according to cost of unit and display it
+            money -= cost;
+            moneyText.text = money.ToString();
             // Specify the position where you want to spawn the object
             Vector3 spawnPosition = new Vector3(xPos, -10f, 0f);
             // Instantiate a new GameObject based on the prefab at the specified position
@@ -34,5 +45,15 @@ public class SpawnManager : MonoBehaviour
         canSpawn = false;
         yield return new WaitForSeconds(spawnCooldown);
         canSpawn = true;
+    }
+
+    IEnumerator AddMoney()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            money += 50;
+            moneyText.text = money.ToString();
+        }
     }
 }
